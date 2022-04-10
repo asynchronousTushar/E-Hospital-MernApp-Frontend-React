@@ -1,7 +1,8 @@
 import React from "react";
 import Header from "../components/Header/Header";
-import { Form, FormGroup, Label, Input, Button} from 'reactstrap';
-import {NavLink} from 'react-router-dom';
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
+import Footer from "../components/Footer/Footer";
 
 const LogIn = () => {
     return (
@@ -46,6 +47,7 @@ const LogIn = () => {
                     <NavLink to="/signup" className="nav-link text-light">Sign Up</NavLink>
                 </Button>
             </div>
+            <Footer fixed="bottom" />
         </React.Fragment>
     );
 }

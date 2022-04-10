@@ -1,8 +1,8 @@
 import { Navbar } from "reactstrap";
 
-const Footer = () => {
+const Footer = (props) => {
     return ( 
-        <Navbar fixed="bottom" color="dark" className="pt-4">
+        <Navbar fixed={props.fixed || ""} color="dark" className="pt-4">
             <p className="text-white-50 mx-auto ">Copyright &copy;2022 <strong>E-Hospital</strong> </p>
         </Navbar>
      );
