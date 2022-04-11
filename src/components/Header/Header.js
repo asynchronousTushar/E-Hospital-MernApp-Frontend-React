@@ -27,6 +27,11 @@ const Header = () => {
                         navbar
                     >
                         <NavItem>
+                            <NavLink to="/" className="nav-link">
+                                Home
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
                             <NavLink to="/login" className="nav-link">
                                 Log In
                             </NavLink>
@@ -34,6 +39,16 @@ const Header = () => {
                         <NavItem>
                             <NavLink to="/signup" className="nav-link">
                                 Sign Up
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink to="/inbox" className="nav-link">
+                                Inbox
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink to="/logout" className="nav-link">
+                                Log Out
                             </NavLink>
                         </NavItem>
                     </Nav>

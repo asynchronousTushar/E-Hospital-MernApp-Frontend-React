@@ -80,7 +80,7 @@ const SignUp = () => {
                         By clicking here, I state that I have read and understood the terms and conditions.
                     </Label>
                 </FormGroup>
-                <Button color="primary d-block m-auto btn-lg px-4" outline>Sign Up</Button>
+                <Button color="primary d-block m-auto btn-lg px-5 mt-4" outline>Sign Up</Button>
             </Form>
             <Footer />
         </div>
