@@ -1,10 +1,10 @@
-import { Card, Row, Col, CardTitle, CardBody, CardFooter, Button } from 'reactstrap';
+import { Card, Row, Col, CardTitle, CardBody } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import bike from '../../bike.jpg'
 
 const Body = (props) => {
     return (
-        <Row className="container">
+        <Row className="container" >
             <Col>
                 <Card color="white" className="shadow-lg my-1 mx-4 p-4" >
                     <CardBody className="m-auto">
@@ -17,13 +17,13 @@ const Body = (props) => {
                 </Card>
             </Col>
             <Col className="mt-5">
-
-                <Button size="lg" className="d-block m-auto my-5" color="light" outline>
-                    Get a Doctor
-                </Button>
-                <Button size="lg" className=" d-block m-auto my-5" color="light" outline>
-                    Request an Issue
-                </Button>
+                <NavLink to="/doctors" className=" d-block col-4 m-auto my-5 btn btn-outline-light btn-lg p-3">
+                        Get a Doctor
+                </NavLink>
+                <NavLink to="/logout" className=" d-block col-4 m-auto my-5 btn btn-outline-light btn-lg p-3">
+                        Request an Issue
+                </NavLink>
+            
             </Col>
         </Row>
     );
