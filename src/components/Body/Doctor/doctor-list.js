@@ -31,6 +31,6 @@ export const doctorList = [
         role: "village Doctor",
         chember: "Kaligang",
         profileImage: bike,
-        id: 3
+        id: 4
     },
 ]

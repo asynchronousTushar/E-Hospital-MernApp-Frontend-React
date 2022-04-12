@@ -1,8 +1,16 @@
 import Header from '../components/Header/Header';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import Footer from '../components/Footer/Footer';
+import { useState } from 'react';
 
 const SignUp = () => {
+    const [date, setDate] = useState("");
+
+    const dateHandler = (event) => {
+        const dateInput = new Date(event.target.value);
+        console.log(dateInput)
+    }
+
     return (
         <div >
             <Header />
@@ -50,6 +58,17 @@ const SignUp = () => {
                         name="date"
                         placeholder="date placeholder"
                         type="date"
+                        onChange={dateHandler}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="profileImage" className="text-light">
+                        Profile Image
+                    </Label>
+                    <Input
+                        id="profileImage"
+                        name="profileImage"
+                        type="file"
                     />
                 </FormGroup>
                 <FormGroup>

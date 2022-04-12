@@ -20,7 +20,7 @@ const Body = (props) => {
                 <NavLink to="/doctors" className=" d-block col-4 m-auto my-5 btn btn-outline-light btn-lg p-3">
                         Get a Doctor
                 </NavLink>
-                <NavLink to="/logout" className=" d-block col-4 m-auto my-5 btn btn-outline-light btn-lg p-3">
+                <NavLink to="/request" className=" d-block col-4 m-auto my-5 btn btn-outline-light btn-lg p-3">
                         Request an Issue
                 </NavLink>
             

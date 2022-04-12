@@ -47,6 +47,11 @@ const Header = () => {
                             </NavLink>
                         </NavItem>
                         <NavItem>
+                            <NavLink to="/requests" className="nav-link">
+                                Requests
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
                             <NavLink to="/logout" className="nav-link">
                                 Log Out
                             </NavLink>
