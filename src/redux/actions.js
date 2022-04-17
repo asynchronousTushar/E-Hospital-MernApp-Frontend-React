@@ -6,3 +6,10 @@ export const signUp = (userData) => {
         payload: userData
     }
 }
+
+export const logIn = (userData) => {
+    return {
+        type: actionType.LOGIN,
+        payload: userData
+    }
+}

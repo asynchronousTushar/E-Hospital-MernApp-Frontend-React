@@ -3,7 +3,8 @@ import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import Footer from '../components/Footer/Footer';
 import React from 'react';
 import { connect } from 'react-redux';
-import { signUp } from '../redux/actions'
+import { signUp } from '../redux/actions';
+import * as formValidator from '../utilities/formValidator';
 
 const mapStateToProps = (state) => {
     return state;
@@ -12,26 +13,64 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         signUp: (userData) => {
-            dispatch(signUp(userData))
+            dispatch(signUp(userData));
         }
     }
 }
 
 class SignUp extends React.Component {
+    state = {
+        userData: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            birthDate: '',
+            profileImage: '',
+            password: '',
+            confirmPassword: ''
+        }
+    }
 
-    state = {}
+    submitHandler = (event) => {
+        event.preventDefault();
+        if (formValidator.isEmail(this.state.userData.email) && formValidator.isPositiveDate(this.state.userData.birthDate) && formValidator.isSamePassword(this.state.userData.password, this.state.userData.confirmPassword)) {
+            console.log(this.state);
+            this.props.signUp(this.state.userData)
+        }
+
+        return;
+    }
+
+    onChangeHandler = (event) => {
+        this.setState((prevState) => {
+            return {
+                userData: {
+                    ...prevState.userData,
+                    [event.target.name]: event.target.value
+                }
+            }
+        })
+    }
+
+    onFileInput = (event) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(event.target.files[0])
+
+        fileReader.onload = (e) => {
+            this.setState((prevState) => ({
+                userData: {
+                    ...prevState.userData,
+                    [event.target.name]: e.target.result
+                }
+            }))
+        }
+    }
 
     render() {
-        this.props.signUp('fuck you')
-
-        console.log(this.props);
-        // console.log(this.state);
-
-
         return (
             <div >
                 <Header />
-                <Form className="col-6 m-auto p-5 shadow-lg my-5 bg-dark d-block rounded" >
+                <Form className="col-6 m-auto p-5 shadow-lg my-5 bg-dark d-block rounded" onSubmit={this.submitHandler}>
                     <h4 className="text-light text-center pb-3">Sign Up for E-Hospital services</h4>
                     <FormGroup>
                         <Label for="firstName" className="text-light">
@@ -42,6 +81,9 @@ class SignUp extends React.Component {
                             name="firstName"
                             placeholder="First Name"
                             type="text"
+                            required
+                            onChange={this.onChangeHandler}
+                            value={this.state.userData.firstname}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -53,7 +95,8 @@ class SignUp extends React.Component {
                             name="lastName"
                             placeholder="Last Name"
                             type="text"
-                        />
+                            onChange={this.onChangeHandler}
+                            value={this.state.userData.lastName} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="email" className="text-light">
@@ -62,8 +105,12 @@ class SignUp extends React.Component {
                         <Input
                             id="email"
                             name="email"
-                            placeholder="with a placeholder"
+                            placeholder="Enter email"
                             type="email"
+                            required
+                            onChange={this.onChangeHandler}
+                            value={this.state.userData.email}
+                            invalid={this.state.userData.email !== '' && !formValidator.isEmail(this.state.userData.email)}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -75,6 +122,10 @@ class SignUp extends React.Component {
                             name="birthDate"
                             placeholder="date placeholder"
                             type="date"
+                            required
+                            onChange={this.onChangeHandler}
+                            value={this.state.userData.birthDate}
+                            invalid={this.state.userData.birthDate !== '' && !formValidator.isPositiveDate(this.state.userData.birthDate)}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -85,6 +136,9 @@ class SignUp extends React.Component {
                             id="profileImage"
                             name="profileImage"
                             type="file"
+                            accept={".jpg, .jpeg, .png"}
+                            required
+                            onChange={this.onFileInput}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -94,8 +148,12 @@ class SignUp extends React.Component {
                         <Input
                             id="password"
                             name="password"
-                            placeholder="password"
+                            placeholder="At least 8 character"
                             type="password"
+                            required
+                            onChange={this.onChangeHandler}
+                            value={this.state.userData.password}
+                            minLength={8}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -104,13 +162,17 @@ class SignUp extends React.Component {
                         </Label>
                         <Input
                             id="confirmPassword"
-                            name="password"
-                            placeholder="password"
+                            name="confirmPassword"
+                            placeholder="Confirm Password"
                             type="password"
+                            required
+                            onChange={this.onChangeHandler}
+                            value={this.state.userData.confirmPassword}
+                            invalid={this.state.userData.confirmPassword !== '' && !formValidator.isSamePassword(this.state.userData.password, this.state.userData.confirmPassword)}
                         />
                     </FormGroup>
                     <FormGroup check className="col-11 mx-auto">
-                        <Input type="checkbox" />
+                        <Input type="checkbox" required />
                         <Label check className="text-secondary" >
                             By clicking here, I state that I have read and understood the terms and conditions.
                         </Label>

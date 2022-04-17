@@ -1,11 +1,12 @@
 import * as actionType from './actionTypes';
 
-const intialState = {fuck: 'kfeja'}
+const intialState = {}
 
 const reducer = (state = intialState, action) => {
     switch (action.type) {
         case actionType.SIGNUP:
             return {
+                ...state,
                 user: action.payload
             }
 
