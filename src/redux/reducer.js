@@ -10,8 +10,18 @@ const reducer = (state = intialState, action) => {
                 user: action.payload
             }
 
-        default : 
-        return state;
+        case actionType.SIGNUP_Failed:
+            return {
+                ...state,
+                signUpFailed: true
+            }
+
+        case actionType.LOGOUT:
+            localStorage.removeItem('authToken')
+            return {}
+
+        default:
+            return state;
     }
 }
 

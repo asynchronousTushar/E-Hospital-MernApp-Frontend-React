@@ -1,8 +1,13 @@
-import { useState } from 'react';
-import { Navbar, NavbarBrand, Collapse, NavbarToggler, NavItem, Nav} from 'reactstrap';
+import React, { useState } from 'react';
+import { Navbar, NavbarBrand, Collapse, NavbarToggler, NavItem, Nav } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const Header = () => {
+const mapStateToProps = state => {
+    return state;
+}
+
+const Header = (props) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const NavbarTogglerHandler = () => {
@@ -26,36 +31,43 @@ const Header = () => {
                         className="ms-auto "
                         navbar
                     >
-                        <NavItem>
-                            <NavLink to="/" className="nav-link">
-                                Home
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink to="/login" className="nav-link">
-                                Log In
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink to="/signup" className="nav-link">
-                                Sign Up
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink to="/inbox" className="nav-link">
-                                Inbox
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink to="/requests" className="nav-link">
-                                Requests
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink to="/logout" className="nav-link">
-                                Log Out
-                            </NavLink>
-                        </NavItem>
+                        {props.user ? (<React.Fragment>
+                            <NavItem>
+                                <NavLink to="/" className="nav-link">
+                                    Home
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink to="/inbox" className="nav-link">
+                                    Inbox
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink to="/requests" className="nav-link">
+                                    Requests
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink to="/logout" className="nav-link">
+                                    Log Out
+                                </NavLink>
+                            </NavItem>
+                        </React.Fragment>)
+
+                            :
+
+                            (<React.Fragment>
+                                <NavItem>
+                                    <NavLink to="/login" className="nav-link">
+                                        Log In
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink to="/signup" className="nav-link">
+                                        Sign Up
+                                    </NavLink>
+                                </NavItem>
+                            </React.Fragment>)}
                     </Nav>
                 </Collapse>
             </Navbar>
@@ -63,4 +75,4 @@ const Header = () => {
     );
 }
 
-export default Header;
+export default connect(mapStateToProps)(Header);

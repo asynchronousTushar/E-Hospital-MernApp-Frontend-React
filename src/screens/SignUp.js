@@ -1,10 +1,11 @@
 import Header from '../components/Header/Header';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, UncontrolledAlert, } from 'reactstrap';
 import Footer from '../components/Footer/Footer';
 import React from 'react';
 import { connect } from 'react-redux';
-import { signUp } from '../redux/actions';
+import { fetchSignUpData } from '../redux/actions';
 import * as formValidator from '../utilities/formValidator';
+import { Navigate } from 'react-router';
 
 const mapStateToProps = (state) => {
     return state;
@@ -13,7 +14,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         signUp: (userData) => {
-            dispatch(signUp(userData));
+            dispatch(fetchSignUpData(userData));
         }
     }
 }
@@ -34,7 +35,6 @@ class SignUp extends React.Component {
     submitHandler = (event) => {
         event.preventDefault();
         if (formValidator.isEmail(this.state.userData.email) && formValidator.isPositiveDate(this.state.userData.birthDate) && formValidator.isSamePassword(this.state.userData.password, this.state.userData.confirmPassword)) {
-            console.log(this.state);
             this.props.signUp(this.state.userData)
         }
 
@@ -66,7 +66,19 @@ class SignUp extends React.Component {
         }
     }
 
+    componentDidMount() {
+
+    }
+
     render() {
+        // // const now = new Date();
+        // // const birthDate = this.state.userData.birthDate;
+        // // const age = Math.abs(new Date(now - new Date(birthDate)).getFullYear() - 1970)
+
+        if (this.props.user) {
+            return <Navigate to='login' />
+        }
+
         return (
             <div >
                 <Header />
@@ -177,6 +189,7 @@ class SignUp extends React.Component {
                             By clicking here, I state that I have read and understood the terms and conditions.
                         </Label>
                     </FormGroup>
+                    {this.props.signUpFailed === true ? <UncontrolledAlert color='danger'>Email is already registered! Please input another one.</UncontrolledAlert> : null}
                     <Button color="primary d-block m-auto btn-lg px-5 mt-4" outline>Sign Up</Button>
                 </Form>
                 <Footer />

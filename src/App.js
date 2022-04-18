@@ -8,23 +8,36 @@ import SignUp from './screens/SignUp';
 import './stylesheets/App.css';
 import Requests from './screens/Requests';
 import RequestForm from './screens/RequestForm';
+import { connect } from 'react-redux';
+import LogOut from './screens/LogOut';
 
-function App() {
+const mapStateToProps = (state) => {
+    return state;
+}
+
+function App(props) {
     return (
         <React.Fragment>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<LogIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/inbox" element={<Inbox />} />
-                <Route path="/doctors" element={<Doctors />} />
-                <Route path="/requests" element={<Requests />} />
-                <Route path="/request" element={<RequestForm />} />
-                <Route path="/logout" element={<Navigate to="/login" />} />
-                <Route path="/*" element={<Navigate to="/" />} />
-            </Routes>
+            {!props.user ?
+                <Routes>
+                    <Route path="/" element={<Navigate to='/login' />} />
+                    <Route path="/login" element={<LogIn />} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/*" element={<Navigate to="/" />} />
+                </Routes>
+                :
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/inbox" element={<Inbox />} />
+                    <Route path="/doctors" element={<Doctors />} />
+                    <Route path="/requests" element={<Requests />} />
+                    <Route path="/request" element={<RequestForm />} />
+                    <Route path="/logout" element={<LogOut />} />
+                    <Route path="/*" element={<Navigate to="/" />} />
+                </Routes>
+            }
         </React.Fragment>
     );
 }
 
-export default App;
+export default connect(mapStateToProps, null)(App);
