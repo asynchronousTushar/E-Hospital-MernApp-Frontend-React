@@ -107,7 +107,7 @@ const RequestForm = () => {
                         <option>
                             Anonymous
                         </option>
-                        <option selected>
+                        <option>
                             Dr Nirmal Biswas
                         </option>
                         <option>

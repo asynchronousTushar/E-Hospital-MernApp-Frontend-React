@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from './screens/Home';
 import Inbox from './screens/Inbox';
@@ -10,12 +10,24 @@ import Requests from './screens/Requests';
 import RequestForm from './screens/RequestForm';
 import { connect } from 'react-redux';
 import LogOut from './screens/LogOut';
+import { checkAuthToken } from './redux/actions';
 
 const mapStateToProps = (state) => {
     return state;
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        checkAuthToken: (token) => dispatch(checkAuthToken(token))
+    }
+}
+
 function App(props) {
+    const token = localStorage.getItem('authToken');
+    useEffect(() => {
+        props.checkAuthToken(token)
+    }, [])
+
     return (
         <React.Fragment>
             {!props.user ?
@@ -40,4 +52,4 @@ function App(props) {
     );
 }
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

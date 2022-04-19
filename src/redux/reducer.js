@@ -1,6 +1,9 @@
 import * as actionType from './actionTypes';
 
-const intialState = {}
+const intialState = {
+    signUpFailed: false,
+    logInFailed: false
+}
 
 const reducer = (state = intialState, action) => {
     switch (action.type) {
@@ -10,10 +13,22 @@ const reducer = (state = intialState, action) => {
                 user: action.payload
             }
 
-        case actionType.SIGNUP_Failed:
+        case actionType.SIGNUP_FAILED:
             return {
                 ...state,
-                signUpFailed: true
+                signUpFailed: !state.signUpFailed
+            }
+
+        case actionType.LOGIN:
+            return {
+                ...state,
+                user: action.payload
+            }
+
+        case actionType.LOGIN_FAILED:
+            return {
+                ...state,
+                logInFailed: !state.logInFailed
             }
 
         case actionType.LOGOUT:

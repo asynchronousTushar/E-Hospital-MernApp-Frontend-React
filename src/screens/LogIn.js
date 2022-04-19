@@ -1,14 +1,57 @@
 import React from "react";
 import Header from "../components/Header/Header";
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, Alert, UncontrolledAlert } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import Footer from "../components/Footer/Footer";
+import { isEmail } from '../utilities/formValidator';
+import { connect } from "react-redux";
+import { fetchLogInData, logIn } from '../redux/actions';
 
-const LogIn = () => {
+const mapStateToProps = (state) => {
+    return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logIn: (email, password) => {
+            dispatch(fetchLogInData(email, password))
+        }
+    }
+}
+
+const LogIn = (props) => {
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+
+    const onChangeHandler = (event) => {
+        if (event.target.name === 'email') {
+            setEmail(event.target.value)
+        } else {
+            setPassword(event.target.value);
+        }
+    }
+
+    const onSubmitHandler = event => {
+        event.preventDefault();
+        if (!isEmail(email)) {
+            return
+        }
+
+
+        props.logIn(email, password);
+    }
+
+
     return (
         <React.Fragment >
             <Header />
-            <Form inline className="p-5 mt-5 col-6 bg-dark m-auto rounded" >
+            {props.logInFailed && <React.Fragment>
+                <br />
+                <UncontrolledAlert className="col-6 mx-auto" color="danger">Log In Failed </UncontrolledAlert>
+            </React.Fragment>
+            }
+            
+            <Form inline className="p-5 mt-5 col-6 bg-dark m-auto rounded" onSubmit={onSubmitHandler}>
                 <FormGroup className="mb-2 me-sm-2 mb-sm-0 text-light">
                     <Label
                         className="me-sm-2 mb-2"
@@ -21,6 +64,9 @@ const LogIn = () => {
                         name="email"
                         placeholder="Enter Your Email Address."
                         type="email"
+                        onChange={onChangeHandler}
+                        value={email}
+                        invalid={email !== '' && !isEmail(email)}
                     />
                 </FormGroup>
                 <FormGroup className="mb-2 me-sm-2 mb-sm-0 text-light">
@@ -35,6 +81,8 @@ const LogIn = () => {
                         name="password"
                         placeholder="Enter Password"
                         type="password"
+                        onChange={onChangeHandler}
+                        value={password}
                     />
                 </FormGroup>
                 <Button className="mt-4 px-5" color="primary" outline>
@@ -52,4 +100,4 @@ const LogIn = () => {
     );
 }
 
-export default LogIn;
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
