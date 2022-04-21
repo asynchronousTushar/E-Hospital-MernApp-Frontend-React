@@ -1,9 +1,9 @@
 import Header from '../components/Header/Header';
-import { Form, FormGroup, Label, Input, Button, UncontrolledAlert, } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, Modal, ModalBody } from 'reactstrap';
 import Footer from '../components/Footer/Footer';
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchSignUpData } from '../redux/actions';
+import { signUp } from '../redux/actions';
 import * as formValidator from '../utilities/formValidator';
 import { Navigate } from 'react-router';
 
@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         signUp: (userData) => {
-            dispatch(fetchSignUpData(userData));
+            dispatch(signUp(userData));
         }
     }
 }
@@ -29,13 +29,14 @@ class SignUp extends React.Component {
             profileImage: '',
             password: '',
             confirmPassword: ''
-        }
+        },
+        signUpModalShow: false
     }
 
     submitHandler = (event) => {
         event.preventDefault();
         if (formValidator.isEmail(this.state.userData.email) && formValidator.isPositiveDate(this.state.userData.birthDate) && formValidator.isSamePassword(this.state.userData.password, this.state.userData.confirmPassword)) {
-            this.props.signUp(this.state.userData)
+            this.fetchSignUpData(this.state.userData)
         }
 
         return;
@@ -54,6 +55,9 @@ class SignUp extends React.Component {
 
     onFileInput = (event) => {
         const fileReader = new FileReader();
+        if (event.target.files.length === 0) {
+            return;
+        }
         fileReader.readAsDataURL(event.target.files[0])
 
         fileReader.onload = (e) => {
@@ -66,22 +70,57 @@ class SignUp extends React.Component {
         }
     }
 
-    componentDidMount() {
+    fetchSignUpData = (userData) => {
+        const filterUserData = {
+            ...userData,
+            confirmPassword: undefined
+        }
 
+            fetch('http://127.0.0.1:3006/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(filterUserData)
+            })
+                .then((res) => {
+                    if (res.status !== 201) {
+                        this.setState({
+                            signUpModalShow: true
+                        })
+                        throw new Error()
+                    }
+    
+                    return res.json()
+                })
+                .then(data => {
+                    this.props.signUp(data.user)
+                    localStorage.setItem("authToken", data.token)
+                })
+                .catch(e => {
+                    this.setState({
+                        signUpModalShow: true
+                    })
+                })
+    }
+
+    toggleSignUpModal = () => {
+        this.setState({
+            signUpModalShow: false
+        })
     }
 
     render() {
-        // // const now = new Date();
-        // // const birthDate = this.state.userData.birthDate;
-        // // const age = Math.abs(new Date(now - new Date(birthDate)).getFullYear() - 1970)
-
-        if (this.props.user) {
-            return <Navigate to='login' />
+        if (this.props.isLogedIn) {
+            return <Navigate to='/' />
         }
+
+        console.log(this.state);
 
         return (
             <div >
                 <Header />
+                <Modal isOpen={this.state.signUpModalShow} toggle={this.toggleSignUpModal} ><ModalBody color="danger">Sign Up Failed.</ModalBody></Modal>
                 <Form className="col-6 m-auto p-5 shadow-lg my-5 bg-dark d-block rounded" onSubmit={this.submitHandler}>
                     <h4 className="text-light text-center pb-3">Sign Up for E-Hospital services</h4>
                     <FormGroup>
@@ -122,7 +161,6 @@ class SignUp extends React.Component {
                             required
                             onChange={this.onChangeHandler}
                             value={this.state.userData.email}
-                            invalid={this.state.userData.email !== '' && !formValidator.isEmail(this.state.userData.email)}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -180,7 +218,7 @@ class SignUp extends React.Component {
                             required
                             onChange={this.onChangeHandler}
                             value={this.state.userData.confirmPassword}
-                            invalid={this.state.userData.confirmPassword !== '' && !formValidator.isSamePassword(this.state.userData.password, this.state.userData.confirmPassword)}
+                            invalid={!formValidator.isSamePassword(this.state.userData.password, this.state.userData.confirmPassword)}
                         />
                     </FormGroup>
                     <FormGroup check className="col-11 mx-auto">
@@ -189,7 +227,6 @@ class SignUp extends React.Component {
                             By clicking here, I state that I have read and understood the terms and conditions.
                         </Label>
                     </FormGroup>
-                    {this.props.signUpFailed === true ? <UncontrolledAlert color='danger'>Email is already registered! Please input another one.</UncontrolledAlert> : null}
                     <Button color="primary d-block m-auto btn-lg px-5 mt-4" outline>Sign Up</Button>
                 </Form>
                 <Footer />

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
+import './stylesheets/App.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 import Home from './screens/Home';
 import Inbox from './screens/Inbox';
 import Doctors from './screens/Doctors';
@@ -22,32 +24,49 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-function App(props) {
-    const token = localStorage.getItem('authToken');
+const App = (props) => {
     useEffect(() => {
+        const token = localStorage.getItem('authToken');
         props.checkAuthToken(token)
     }, [])
 
+    let routes = null;
+
+    if (props.isLogedIn === undefined) {
+        routes = <div className="d-flex vh-100 bg-white align-items-center justify-content-center">
+            <Spinner color="danger" type="grow"></Spinner>
+            <Spinner color="info" type="grow"></Spinner>
+            <Spinner color="warnning" type="grow"></Spinner>
+            </div>
+    } else if (props.isLogedIn === false) {
+        routes = (
+            <Routes>
+                <Route path="/" element={<Navigate to='/login' />} />
+                <Route path="/login" element={<LogIn />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/*" element={<Navigate to="/" />} />
+            </Routes>
+        )
+
+    } else if (props.isLogedIn === true) {
+        routes = (
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/inbox" element={<Inbox />} />
+                <Route path="/doctors" element={<Doctors />} />
+                <Route path="/requests" element={<Requests />} />
+                <Route path="/request" element={<RequestForm />} />
+                <Route path="/logout" element={<LogOut />} />
+                <Route path="/*" element={<Navigate to="/" />} />
+            </Routes>
+        )
+    }
+
+    console.log(props)
+
     return (
         <React.Fragment>
-            {!props.user ?
-                <Routes>
-                    <Route path="/" element={<Navigate to='/login' />} />
-                    <Route path="/login" element={<LogIn />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/*" element={<Navigate to="/" />} />
-                </Routes>
-                :
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/inbox" element={<Inbox />} />
-                    <Route path="/doctors" element={<Doctors />} />
-                    <Route path="/requests" element={<Requests />} />
-                    <Route path="/request" element={<RequestForm />} />
-                    <Route path="/logout" element={<LogOut />} />
-                    <Route path="/*" element={<Navigate to="/" />} />
-                </Routes>
-            }
+            {routes}
         </React.Fragment>
     );
 }
