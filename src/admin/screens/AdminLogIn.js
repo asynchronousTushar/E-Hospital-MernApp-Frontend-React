@@ -1,28 +1,14 @@
 import React from "react";
-import Header from "../components/Header/Header";
-import { Form, FormGroup, Label, Input, Button, ModalBody, Modal } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import Footer from "../components/Footer/Footer";
-import { isEmail } from '../utilities/formValidator';
-import { connect } from "react-redux";
-import { logIn } from '../redux/actions';
+import Footer from "../../components/Footer/Footer";
+import { Form, FormGroup, Label, Input, Button, Modal, ModalBody } from "reactstrap";
+import { NavLink } from "react-router-dom";
+import { isEmail } from "../../utilities/formValidator";
+import Header from "../../components/Header/Header";
 
-const mapStateToProps = (state) => {
-    return state;
-}
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        logIn: (email, password) => {
-            dispatch(logIn(email, password))
-        }
-    }
-}
-
-const LogIn = (props) => {
+const AdminLogIn = (props) => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [logInModalShow, setLogInModalShow] = React.useState(false);
 
     const onChangeHandler = (event) => {
         if (event.target.name === 'email') {
@@ -41,39 +27,35 @@ const LogIn = (props) => {
     }
 
     const fetchLogInData = (email, password) => {
-        fetch('http://127.0.0.1:3006/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        })
-            .then((res) => {
-                if (res.status !== 200) {
-                    setLogInModalShow(true);
-                    throw new Error()
-                }
+        // fetch('http://127.0.0.1:3006/login', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({ email, password })
+        // })
+        //     .then((res) => {
+        //         if (res.status !== 200) {
+        //             setLogInModalShow(true);
+        //             throw new Error()
+        //         }
 
-                return res.json()
-            })
-            .then((data) => {
-                props.logIn(data.user);
-                localStorage.setItem('authToken', data.token);
-            })
-            .catch((e) => {
-                setLogInModalShow(true);
-            })
-    }
-
-    const toggleLogInModal = () => {
-        setLogInModalShow(false);
+        //         return res.json()
+        //     })
+        //     .then((data) => {
+        //         props.logIn(data.user);
+        //         localStorage.setItem('authToken', data.token);
+        //     })
+        //     .catch((e) => {
+        //         setLogInModalShow(true);
+        //     })
     }
 
 
     return (
         <React.Fragment >
             <Header />
-            <Modal isOpen={logInModalShow} toggle={toggleLogInModal}><ModalBody>Log In Failed.</ModalBody></Modal>
+            {/* <Modal isOpen={logInModalShow} toggle={toggleLogInModal}><ModalBody>Log In Failed.</ModalBody></Modal> */}
             <Form inline className="p-5 mt-5 col-6 bg-dark m-auto rounded" onSubmit={onSubmitHandler}>
                 <FormGroup className="mb-2 me-sm-2 mb-sm-0 text-light">
                     <Label
@@ -112,15 +94,15 @@ const LogIn = (props) => {
                     Log In
                 </Button>
             </Form>
-            <div className="mb-5">
+            <div>
                 <h6 className="text-center text-light my-3">Or</h6>
                 <Button className="d-block col-3 m-auto py-2" color="dark">
-                    <NavLink to="/signup" className="nav-link text-light">Sign Up</NavLink>
+                    <NavLink to="admin/signup" className="nav-link text-light">Sign Up</NavLink>
                 </Button>
             </div>
-            <Footer fixed='bottom' />
+            <Footer fixed="bottom" />
         </React.Fragment>
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
+export default AdminLogIn;

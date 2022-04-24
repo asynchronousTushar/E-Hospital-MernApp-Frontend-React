@@ -52,6 +52,13 @@ export const checkAuthToken = (token) => {
     }
 }
 
+export const switchMode = () => {
+    return {
+        type: actionType.MODE_SWITCH
+    }
+}
+
+
  
 
 

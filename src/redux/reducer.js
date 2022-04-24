@@ -1,6 +1,10 @@
 import * as actionType from './actionTypes';
 
-const intialState = {}
+const intialState = {
+    mode: 'user',
+    isLogedIn: false,
+    isLoading: true
+}
 
 const reducer = (state = intialState, action) => {
     switch (action.type) {
@@ -8,25 +12,35 @@ const reducer = (state = intialState, action) => {
             return {
                 ...state,
                 user: action.payload,
-                isLogedIn: true
+                isLogedIn: true,
+                isLoading: false
             }
-
 
         case actionType.LOGIN:
             return {
                 ...state,
                 user: action.payload,
-                isLogedIn: true
+                isLogedIn: true,
+                isLoading: false
             }
-
 
         case actionType.LOGOUT:
             return {
+                mode: 'user',
+                isLogedIn: false,
+                isLoading: false
+            }
+
+        case actionType.LOGIN_FAILED:
+            return {
+                ...state,
                 isLogedIn: false
             }
 
-            case actionType.LOGIN_FAILED: 
+        case actionType.MODE_SWITCH:
             return {
+                ...state,
+                mode: state.mode === 'user' ? 'admin' : 'user',
                 isLogedIn: false
             }
 

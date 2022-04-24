@@ -1,0 +1,157 @@
+import React from "react";
+import { Form, Label, FormGroup, Input, Modal, Button } from "reactstrap";
+import Footer from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
+
+const AdminSignUp = (props) => {
+    const [firstName, setFirstName] = React.useState('')
+    const [lastName, setLastName] = React.useState('')
+    const [email, setEmail] = React.useState('')
+    const [birthDate, setBirthDate] = React.useState('')
+    const [profileImage, setProfileImage] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const [confirmPassword, setConfirmPassword] = React.useState('')
+
+    const onChangeHandler = (event) => {
+
+    }
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+
+    }
+
+    const onFileInput = (event) => {
+        const fileReader = new FileReader();
+        if (event.target.files.length === 0) {
+            return;
+        }
+        fileReader.readAsDataURL(event.target.files[0])
+
+        fileReader.onload = (e) => {
+            // this.setState((prevState) => ({
+            //     userData: {
+            //         ...prevState.userData,
+            //         [event.target.name]: e.target.result
+            //     }
+            // }))
+        }
+    }
+
+
+    return (
+        <div >
+            <Header />
+            {/* <Modal isOpen={this.state.signUpModalShow} toggle={this.toggleSignUpModal} ><ModalBody color="danger">Sign Up Failed.</ModalBody></Modal> */}
+            <Form className="col-6 m-auto p-5 shadow-lg my-5 bg-dark d-block rounded" onSubmit={onSubmitHandler}>
+                <h4 className="text-light text-center pb-4">Admin Panel</h4>
+                <FormGroup>
+                    <Label for="firstName" className="text-light">
+                        First Name
+                    </Label>
+                    <Input
+                        id="firstName"
+                        name="firstName"
+                        placeholder="First Name"
+                        type="text"
+                        required
+                        onChange={onChangeHandler}
+                        value={firstName}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="lastName" className="text-light">
+                        Last Name
+                    </Label>
+                    <Input
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Last Name"
+                        type="text"
+                        onChange={onChangeHandler}
+                        value={lastName} />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="email" className="text-light">
+                        Email
+                    </Label>
+                    <Input
+                        id="email"
+                        name="email"
+                        placeholder="Enter email"
+                        type="email"
+                        required
+                        onChange={onChangeHandler}
+                        value={email}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="birthDate" className="text-light">
+                        Date Of Birth
+                    </Label>
+                    <Input
+                        id="birthDate"
+                        name="birthDate"
+                        placeholder="date placeholder"
+                        type="date"
+                        required
+                        onChange={onChangeHandler}
+                        value={birthDate}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="profileImage" className="text-light">
+                        Profile Image
+                    </Label>
+                    <Input
+                        id="profileImage"
+                        name="profileImage"
+                        type="file"
+                        accept={".jpg, .jpeg, .png"}
+                        required
+                        onChange={onFileInput}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="password" className="text-light">
+                        Password
+                    </Label>
+                    <Input
+                        id="password"
+                        name="password"
+                        placeholder="At least 8 character"
+                        type="password"
+                        required
+                        onChange={onChangeHandler}
+                        value={password}
+                        minLength={8}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="confirmPassword" className="text-light">
+                        Confirm Password
+                    </Label>
+                    <Input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        type="password"
+                        required
+                        onChange={onChangeHandler}
+                        value={confirmPassword}
+                    />
+                </FormGroup>
+                <FormGroup check className="col-11 mx-auto">
+                    <Input type="checkbox" required />
+                    <Label check className="text-secondary" >
+                        By clicking here, I state that I have read and understood the terms and conditions.
+                    </Label>
+                </FormGroup>
+                <Button color="primary d-block m-auto btn-lg px-5 mt-4" outline>Sign Up</Button>
+            </Form>
+            <Footer />
+        </div>
+    );
+}
+
+export default AdminSignUp;

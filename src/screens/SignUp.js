@@ -1,11 +1,11 @@
-import Header from '../components/Header/Header';
 import { Form, FormGroup, Label, Input, Button, Modal, ModalBody } from 'reactstrap';
-import Footer from '../components/Footer/Footer';
 import React from 'react';
 import { connect } from 'react-redux';
 import { signUp } from '../redux/actions';
 import * as formValidator from '../utilities/formValidator';
 import { Navigate } from 'react-router';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 
 const mapStateToProps = (state) => {
     return state;
@@ -76,32 +76,32 @@ class SignUp extends React.Component {
             confirmPassword: undefined
         }
 
-            fetch('http://127.0.0.1:3006/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(filterUserData)
-            })
-                .then((res) => {
-                    if (res.status !== 201) {
-                        this.setState({
-                            signUpModalShow: true
-                        })
-                        throw new Error()
-                    }
-    
-                    return res.json()
-                })
-                .then(data => {
-                    this.props.signUp(data.user)
-                    localStorage.setItem("authToken", data.token)
-                })
-                .catch(e => {
+        fetch('http://127.0.0.1:3006/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(filterUserData)
+        })
+            .then((res) => {
+                if (res.status !== 201) {
                     this.setState({
                         signUpModalShow: true
                     })
+                    throw new Error()
+                }
+
+                return res.json()
+            })
+            .then(data => {
+                this.props.signUp(data.user)
+                localStorage.setItem("authToken", data.token)
+            })
+            .catch(e => {
+                this.setState({
+                    signUpModalShow: true
                 })
+            })
     }
 
     toggleSignUpModal = () => {
@@ -115,11 +115,9 @@ class SignUp extends React.Component {
             return <Navigate to='/' />
         }
 
-        console.log(this.state);
-
         return (
             <div >
-                <Header />
+                <Header/>
                 <Modal isOpen={this.state.signUpModalShow} toggle={this.toggleSignUpModal} ><ModalBody color="danger">Sign Up Failed.</ModalBody></Modal>
                 <Form className="col-6 m-auto p-5 shadow-lg my-5 bg-dark d-block rounded" onSubmit={this.submitHandler}>
                     <h4 className="text-light text-center pb-3">Sign Up for E-Hospital services</h4>
