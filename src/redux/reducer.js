@@ -34,14 +34,15 @@ const reducer = (state = intialState, action) => {
         case actionType.LOGIN_FAILED:
             return {
                 ...state,
-                isLogedIn: false
+                isLogedIn: false,
+                isLoading: false
             }
 
         case actionType.MODE_SWITCH:
             return {
-                ...state,
                 mode: state.mode === 'user' ? 'admin' : 'user',
-                isLogedIn: false
+                isLogedIn: false,
+                isLoading: false
             }
 
         default:

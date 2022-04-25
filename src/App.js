@@ -49,16 +49,17 @@ const App = (props) => {
 
     let routes = null;
 
-    // if (props.isLoading === true) {
-    //     let loader = <div className="d-flex vh-100 bg-white align-items-center justify-content-center">
-    //         <Spinner color="danger" type="grow"></Spinner>
-    //         <Spinner color="info" type="grow"></Spinner>
-    //         <Spinner color="warnning" type="grow"></Spinner>
-    //     </div>;
+    if (props.isLoading === true) {
+        let loader =
+            <div className="d-flex vh-100 bg-white align-items-center justify-content-center">
+                <Spinner color="danger" type="grow"></Spinner>
+                <Spinner color="info" type="grow"></Spinner>
+                <Spinner color="warnning" type="grow"></Spinner>
+            </div>;
 
-    //     routes = <Route path='/' element={loader} />
-    // } else
-    if (props.mode === 'user' && props.isLogedIn === false) {
+        routes = <Route path='/*' element={loader} />
+
+    } else if (props.mode === 'user' && props.isLogedIn === false) {
         routes = (
             <React.Fragment>
                 <Route path="/" element={<Navigate to='/login' />} />
@@ -94,7 +95,7 @@ const App = (props) => {
     } else if (props.mode === 'admin' && props.isLogedIn === true) {
         routes = (
             <React.Fragment>
-                <Route path="/" element={<Navigate to="/admin"/>} />
+                <Route path="/" element={<Navigate to="/admin" />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin/logout" element={<AdminLogOut />} />
                 <Route path="/admin/inbox" element={<AdminInbox />} />
