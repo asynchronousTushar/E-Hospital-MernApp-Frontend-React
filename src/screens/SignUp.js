@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signUp } from '../redux/actions';
 import * as formValidator from '../utilities/formValidator';
-import { Navigate } from 'react-router';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 
@@ -111,13 +110,9 @@ class SignUp extends React.Component {
     }
 
     render() {
-        if (this.props.isLogedIn) {
-            return <Navigate to='/' />
-        }
-
         return (
             <div >
-                <Header/>
+                <Header />
                 <Modal isOpen={this.state.signUpModalShow} toggle={this.toggleSignUpModal} ><ModalBody color="danger">Sign Up Failed.</ModalBody></Modal>
                 <Form className="col-6 m-auto p-5 shadow-lg my-5 bg-dark d-block rounded" onSubmit={this.submitHandler}>
                     <h4 className="text-light text-center pb-3">Sign Up for E-Hospital services</h4>

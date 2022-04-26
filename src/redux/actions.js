@@ -7,14 +7,14 @@ export const signUp = (userData) => {
     }
 }
 
- export const logIn = (userData) => {
+export const logIn = (userData) => {
     return {
         type: actionType.LOGIN,
         payload: userData
     }
 }
 
- export const logOut = () => {
+export const logOut = () => {
     return {
         type: actionType.LOGOUT
     }
@@ -37,8 +37,8 @@ export const checkAuthToken = (token) => {
         })
             .then((res) => {
                 if (res.status !== 200) {
-                dispatch(tokenLogInFailed())
-                throw new Error();
+                    dispatch(tokenLogInFailed())
+                    throw new Error();
                 }
 
                 return res.json();
@@ -58,7 +58,14 @@ export const switchMode = () => {
     }
 }
 
+export const adminSignUp = (userData) => {
+    return {
+        type: actionType.ADMIN_SIGNUP,
+        payload: userData
+    }
+}
 
- 
+
+
 
 

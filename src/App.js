@@ -99,6 +99,7 @@ const App = (props) => {
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin/logout" element={<AdminLogOut />} />
                 <Route path="/admin/inbox" element={<AdminInbox />} />
+                <Route path="/*" element={<Navigate to='admin' />} />
             </React.Fragment>
         )
     }

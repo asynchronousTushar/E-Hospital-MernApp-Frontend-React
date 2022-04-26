@@ -45,6 +45,13 @@ const reducer = (state = intialState, action) => {
                 isLoading: false
             }
 
+            case actionType.ADMIN_SIGNUP:
+                return {
+                    ...state,
+                    isLogedIn: true,
+                    admin: action.payload
+                }
+
         default:
             return state;
     }

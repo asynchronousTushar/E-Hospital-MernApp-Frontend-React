@@ -3,6 +3,14 @@ import { Form, Label, FormGroup, Input, Modal, Button, ModalBody } from "reactst
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import { isSamePassword } from '../../utilities/formValidator';
+import { connect } from "react-redux";
+import { adminSignUp } from "../../redux/actions";
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        adminSignUp: (userData) => dispatch(adminSignUp(userData))
+    }
+}
 
 const AdminSignUp = (props) => {
     const [userData, setUserData] = React.useState({
@@ -42,13 +50,16 @@ const AdminSignUp = (props) => {
             .then((res) => {
                 console.log(res)
                 if (res.status === 400) {
-                    setIsModalShow(true)
+                    setIsModalShow(true);
+                    throw new Error();
+                    
                 } else if (res.status === 201) {
                     return res.json();
                 }
             })
             .then((data) => {
                 console.log(data);
+                props.adminSignUp(data);
             })
             .catch(e => {
                 setIsModalShow(true)
@@ -74,7 +85,6 @@ const AdminSignUp = (props) => {
     const toggleSignUpModal = () => {
         setIsModalShow(false)
     }
-
 
     return (
         <div >
@@ -206,4 +216,4 @@ const AdminSignUp = (props) => {
     );
 }
 
-export default AdminSignUp;
+export default connect(null, mapDispatchToProps)(AdminSignUp);
