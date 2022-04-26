@@ -4,58 +4,68 @@ import { Form, FormGroup, Label, Input, Button, Modal, ModalBody } from "reactst
 import { NavLink } from "react-router-dom";
 import { isEmail } from "../../utilities/formValidator";
 import Header from "../../components/Header/Header";
+import { connect } from "react-redux";
+import { adminLogIn } from '../../redux/actions';
+
+const mapDispatchToProps = dispatch => {
+    return {
+        adminLogIn: (userData) => dispatch(adminLogIn(userData))
+    }
+}
 
 
 const AdminLogIn = (props) => {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [userData, setUserData] = React.useState({
+        email: '',
+        password: ''
+    });
+    const [isModalShow, setIsModalShow] = React.useState(false);
 
     const onChangeHandler = (event) => {
-        if (event.target.name === 'email') {
-            setEmail(event.target.value)
-        } else {
-            setPassword(event.target.value);
-        }
+        setUserData({
+            ...userData,
+            [event.target.name]: event.target.value
+        })
     }
 
     const onSubmitHandler = event => {
         event.preventDefault();
-        if (!isEmail(email)) {
+        if (!isEmail(userData.email)) {
             return
         }
-        fetchLogInData(email, password);
+
+        fetch('http://127.0.0.1:3006/adminlogin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: userData.email, password: userData.password })
+        })
+            .then((res) => {
+                if (res.status !== 200) {
+                    setIsModalShow(true)
+                    throw new Error()
+                }
+
+                return res.json()
+            })
+            .then((data) => {
+                props.adminLogIn(data)
+            })
+            .catch((e) => {
+                setIsModalShow(true)
+                console.log(e)
+            })
     }
 
-    const fetchLogInData = (email, password) => {
-        // fetch('http://127.0.0.1:3006/login', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ email, password })
-        // })
-        //     .then((res) => {
-        //         if (res.status !== 200) {
-        //             setLogInModalShow(true);
-        //             throw new Error()
-        //         }
-
-        //         return res.json()
-        //     })
-        //     .then((data) => {
-        //         props.logIn(data.user);
-        //         localStorage.setItem('authToken', data.token);
-        //     })
-        //     .catch((e) => {
-        //         setLogInModalShow(true);
-        //     })
+    const toggleLogInModal = () => {
+        setIsModalShow(false)
     }
-
 
     return (
         <React.Fragment >
             <Header />
-            {/* <Modal isOpen={logInModalShow} toggle={toggleLogInModal}><ModalBody>Log In Failed.</ModalBody></Modal> */}
+            <Modal isOpen={isModalShow} toggle={toggleLogInModal}><ModalBody>Log In Failed.</ModalBody></Modal>
             <Form inline className="p-5 mt-5 col-6 bg-dark m-auto rounded" onSubmit={onSubmitHandler}>
                 <FormGroup className="mb-2 me-sm-2 mb-sm-0 text-light">
                     <Label
@@ -70,8 +80,8 @@ const AdminLogIn = (props) => {
                         placeholder="Enter Your Email Address."
                         type="email"
                         onChange={onChangeHandler}
-                        value={email}
-                        invalid={email !== '' && !isEmail(email)}
+                        value={userData.email}
+                        invalid={userData.email !== '' && !isEmail(userData.email)}
                     />
                 </FormGroup>
                 <FormGroup className="mb-2 me-sm-2 mb-sm-0 text-light">
@@ -87,7 +97,7 @@ const AdminLogIn = (props) => {
                         placeholder="Enter Password"
                         type="password"
                         onChange={onChangeHandler}
-                        value={password}
+                        value={userData.password}
                     />
                 </FormGroup>
                 <Button className="mt-4 px-5" color="primary" outline>
@@ -105,4 +115,4 @@ const AdminLogIn = (props) => {
     );
 }
 
-export default AdminLogIn;
+export default connect(null, mapDispatchToProps)(AdminLogIn);

@@ -65,6 +65,13 @@ export const adminSignUp = (userData) => {
     }
 }
 
+export const adminLogIn = (userData) => {
+    return {
+        type: actionType.ADMIN_LOGIN,
+        payload: userData
+    }
+}
+
 
 
 

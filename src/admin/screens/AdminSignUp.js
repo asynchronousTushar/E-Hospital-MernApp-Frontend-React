@@ -48,7 +48,6 @@ const AdminSignUp = (props) => {
             body: JSON.stringify(filterUserData)
         })
             .then((res) => {
-                console.log(res)
                 if (res.status === 400) {
                     setIsModalShow(true);
                     throw new Error();
@@ -58,7 +57,6 @@ const AdminSignUp = (props) => {
                 }
             })
             .then((data) => {
-                console.log(data);
                 props.adminSignUp(data);
             })
             .catch(e => {
