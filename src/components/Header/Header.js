@@ -73,18 +73,18 @@ const Header = (props) => {
         )
     } else if (props.mode === 'admin' && props.isLogedIn === true) {
         navItems = (
-        <React.Fragment>
-            <NavItem>
-                <NavLink to="/admin/inbox" className="nav-link">
-                    Inbox
-                </NavLink>
-            </NavItem>
-            <NavItem>
-                <NavLink to="/admin/logout" className="nav-link">
-                    Log Out
-                </NavLink>
-            </NavItem>
-        </React.Fragment>
+            <React.Fragment>
+                <NavItem>
+                    <NavLink to="/admin/inbox" className="nav-link">
+                        Inbox
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink to="/admin/logout" className="nav-link">
+                        Log Out
+                    </NavLink>
+                </NavItem>
+            </React.Fragment>
         )
     }
 
@@ -96,11 +96,15 @@ const Header = (props) => {
                 dark
                 className="px-md-5"
             >
-                {props.mode === 'admin' ? <NavbarBrand href="/admin">
-                    <h2 className="text-primary">E-Hospital</h2>
-                </NavbarBrand> : <NavbarBrand href="/">
-                    <h2 className="text-primary">E-Hospital</h2>
-                </NavbarBrand>}
+                {props.mode === 'admin' ?
+                    <NavLink className="navbar-brand" to="/admin" >
+                        <h2 className="text-primary">
+                            E-Hospital
+                        </h2>
+                    </NavLink>
+                    : <NavbarBrand href="/">
+                        <h2 className="text-primary">E-Hospital</h2>
+                    </NavbarBrand>}
                 <NavbarToggler onClick={NavbarTogglerHandler} />
                 <Collapse navbar isOpen={isOpen}>
                     <Nav

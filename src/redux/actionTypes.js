@@ -7,3 +7,4 @@ export const MODE_SWITCH = 'MODE_SWITCH';
 
 export const ADMIN_SIGNUP = 'ADMIN_SIGNUP';
 export const ADMIN_LOGIN = 'ADMIN_LOGIN';
+export const ADMIN_LOGOUT = 'ADMIN_LOGOUT';

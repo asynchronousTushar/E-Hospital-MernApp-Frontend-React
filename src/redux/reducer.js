@@ -59,6 +59,13 @@ const reducer = (state = intialState, action) => {
                 admin: action.payload
             }
 
+            case actionType.ADMIN_LOGOUT: 
+            return {
+                ...state,
+                isLogedIn: false,
+                admin: undefined
+            }
+
         default:
             return state;
     }

@@ -72,6 +72,12 @@ export const adminLogIn = (userData) => {
     }
 }
 
+export const adminLogOut = () => {
+    return {
+        type: actionType.ADMIN_LOGOUT
+    }
+}
+
 
 
 
