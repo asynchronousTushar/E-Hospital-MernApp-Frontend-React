@@ -60,12 +60,12 @@ const AdminLogIn = (props) => {
                 <FormGroup className="mb-2 me-sm-2 mb-sm-0 text-light">
                     <Label
                         className="me-sm-2 mb-2"
-                        for="exampleEmail"
+                        for="email"
                     >
                         Email
                     </Label>
                     <Input
-                        id="exampleEmail"
+                        id="email"
                         name="email"
                         placeholder="Enter Your Email Address."
                         type="email"
