@@ -44,10 +44,11 @@ export const checkAuthToken = (token) => {
                 return res.json();
             })
             .then((data) => {
-                dispatch(logIn(data))
+                console.log(data);
+                dispatch(logIn(data));
             })
             .catch(e => {
-                dispatch(tokenLogInFailed())
+                dispatch(tokenLogInFailed());
             })
     }
 }

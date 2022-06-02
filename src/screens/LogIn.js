@@ -57,7 +57,7 @@ const LogIn = (props) => {
                 return res.json()
             })
             .then((data) => {
-                props.logIn(data.user);
+                props.logIn({user: data.user, admins: data.admins});
                 localStorage.setItem('authToken', data.token);
             })
             .catch((e) => {

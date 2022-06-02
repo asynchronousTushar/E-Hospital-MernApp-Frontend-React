@@ -11,7 +11,8 @@ const reducer = (state = intialState, action) => {
         case actionType.SIGNUP:
             return {
                 ...state,
-                user: action.payload,
+                user: action.payload.user,
+                admins: action.payload.admins,
                 isLogedIn: true,
                 isLoading: false
             }
@@ -19,7 +20,8 @@ const reducer = (state = intialState, action) => {
         case actionType.LOGIN:
             return {
                 ...state,
-                user: action.payload,
+                user: action.payload.user,
+                admins: action.payload.admins,
                 isLogedIn: true,
                 isLoading: false
             }
@@ -49,14 +51,16 @@ const reducer = (state = intialState, action) => {
             return {
                 ...state,
                 isLogedIn: true,
-                admin: action.payload
+                admin: action.payload.admin,
+                users: action.payload.users
             }
 
         case actionType.ADMIN_LOGIN:
             return {
                 ...state,
                 isLogedIn: true,
-                admin: action.payload
+                admin: action.payload.admin,
+                users: action.payload.users
             }
 
             case actionType.ADMIN_LOGOUT: 

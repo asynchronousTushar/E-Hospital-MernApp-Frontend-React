@@ -7,7 +7,6 @@ const mapStateToProps = state => {
     return state;
 }
 
-
 const Header = (props) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -41,6 +40,7 @@ const Header = (props) => {
                 </NavItem>
             </React.Fragment>
         )
+
     } else if (props.mode === 'user' && props.isLogedIn === false) {
         navItems = (
             <React.Fragment>
@@ -56,6 +56,7 @@ const Header = (props) => {
                 </NavItem>
             </React.Fragment>
         )
+
     } else if (props.mode === 'admin', props.isLogedIn === false) {
         navItems = (
             <React.Fragment>
@@ -71,6 +72,7 @@ const Header = (props) => {
                 </NavItem>
             </React.Fragment>
         )
+        
     } else if (props.mode === 'admin' && props.isLogedIn === true) {
         navItems = (
             <React.Fragment>

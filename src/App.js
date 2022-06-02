@@ -18,6 +18,7 @@ import AdminLogIn from './admin/screens/AdminLogIn';
 import AdminSignUp from './admin/screens/AdminSignUp'
 
 import { checkAuthToken, switchMode } from './redux/actions';
+import Patient from './admin/screens/Patient';
 
 
 const mapStateToProps = (state) => {
@@ -74,9 +75,9 @@ const App = (props) => {
             <React.Fragment>
                 <Route path="/" element={<Home />} />
                 <Route path="/inbox" element={<Inbox />} />
-                <Route path="/doctors" element={<Doctors />} />
+                <Route path="/doctors" element={<Doctors doctorList={props.admins} />} />
                 <Route path="/requests" element={<Requests />} />
-                <Route path="/request" element={<RequestForm />} />
+                <Route path="/request" element={<RequestForm doctorList={props.admins} />} />
                 <Route path="/logout" element={<LogOut />} />
                 <Route path="/*" element={<Navigate to="/" />} />
             </React.Fragment>
@@ -100,6 +101,7 @@ const App = (props) => {
                 <Route path="/admin/logout" element={<AdminLogOut />} />
                 <Route path="/admin/inbox" element={<AdminInbox />} />
                 <Route path="/*" element={<Navigate to='admin' />} />
+                <Route path="/admin/patient/:userid"  element={<Patient />} />
             </React.Fragment>
         )
     }

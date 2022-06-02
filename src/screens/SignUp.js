@@ -93,7 +93,7 @@ class SignUp extends React.Component {
                 return res.json()
             })
             .then(data => {
-                this.props.signUp(data.user)
+                this.props.signUp({user: data.user, admins: data.admins})
                 localStorage.setItem("authToken", data.token)
             })
             .catch(e => {

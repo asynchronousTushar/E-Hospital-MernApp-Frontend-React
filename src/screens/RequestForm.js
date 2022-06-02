@@ -1,8 +1,10 @@
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
+import { useLocation } from "react-router";
 
-const RequestForm = () => {
+const RequestForm = ({ doctorList }) => {
+    const doctor = useLocation().state;
     return (
         <div>
             <Header />
@@ -103,19 +105,17 @@ const RequestForm = () => {
                         id="preferredDoctor"
                         name="preferredDoctor"
                         type="select"
+                        defaultValue={ doctor ? doctor._id : "anonymous"}
                     >
-                        <option>
+                        <option value="anonymous">
                             Anonymous
                         </option>
-                        <option>
-                            Dr Nirmal Biswas
-                        </option>
-                        <option>
-                            Dr Santosh Biswas
-                        </option>
-                        <option>
-                            Dr Bhupen Biswas
-                        </option>
+
+                        {doctorList.map((item, index) => {
+                            return (
+                                <option value={item._id} key={index}>{item.firstName + " " + item.lastName}</option>
+                            );
+                        })}
                     </Input>
                 </FormGroup>
                 <Button color="primary d-block m-auto btn-lg px-5 mt-4" outline>Submit</Button>
