@@ -76,8 +76,8 @@ const App = (props) => {
                 <Route path="/" element={<Home />} />
                 <Route path="/inbox" element={<Inbox />} />
                 <Route path="/doctors" element={<Doctors doctorList={props.admins} />} />
-                <Route path="/requests" element={<Requests />} />
-                <Route path="/request" element={<RequestForm doctorList={props.admins} />} />
+                <Route path="/requests" element={<Requests issues={props.issues} />} />
+                <Route path="/request" element={<RequestForm />} />
                 <Route path="/logout" element={<LogOut />} />
                 <Route path="/*" element={<Navigate to="/" />} />
             </React.Fragment>

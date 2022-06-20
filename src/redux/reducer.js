@@ -13,6 +13,7 @@ const reducer = (state = intialState, action) => {
                 ...state,
                 user: action.payload.user,
                 admins: action.payload.admins,
+                issues: action.payload.issues,
                 isLogedIn: true,
                 isLoading: false
             }
@@ -22,6 +23,7 @@ const reducer = (state = intialState, action) => {
                 ...state,
                 user: action.payload.user,
                 admins: action.payload.admins,
+                issues: action.payload.issues,
                 isLogedIn: true,
                 isLoading: false
             }
@@ -39,6 +41,11 @@ const reducer = (state = intialState, action) => {
                 isLogedIn: false,
                 isLoading: false
             }
+
+        case actionType.ADD_ISSUE:
+            const newState = state;
+            newState.issues.push(action.payload)
+            return newState;
 
         case actionType.MODE_SWITCH:
             return {
@@ -63,7 +70,7 @@ const reducer = (state = intialState, action) => {
                 users: action.payload.users
             }
 
-            case actionType.ADMIN_LOGOUT: 
+        case actionType.ADMIN_LOGOUT:
             return {
                 ...state,
                 isLogedIn: false,

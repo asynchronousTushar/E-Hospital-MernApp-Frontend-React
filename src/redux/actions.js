@@ -44,12 +44,18 @@ export const checkAuthToken = (token) => {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
                 dispatch(logIn(data));
             })
             .catch(e => {
                 dispatch(tokenLogInFailed());
             })
+    }
+}
+
+export const addIssue = (issue) => {
+    return {
+        type: actionType.ADD_ISSUE,
+        payload: issue
     }
 }
 
